@@ -69,7 +69,7 @@
             <div id='boxes' class='row'>
             </div>
             
-            <p>Guesses: <span id='guesses'>0</span> Best Try: <span id='best'>N/A</span></p>
+            <p>Guesses: <span id='guesses'>0</span> Best Try: <span id='best'></span></p>
         </div>
         
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -203,6 +203,7 @@
                     $('#boxes').append(item);
                 }
                 $("#guesses").text(model.guesses);
+                $("#best").text(model.best);
                 
                 //login-logout
                 console.log(model2);
@@ -218,7 +219,7 @@
                     $("#logoutBtn").show();
                     $("#loginBtn").hide();
                     $("#registerBtn").hide();
-                    $("#msg").hide();
+                    $("#msg").text("Hello " + model.result.email);
                 }
             }            
             
@@ -316,11 +317,7 @@
             {
                 let email = $('#regEmail').val().trim();
                 let password = $('#regPassword').val().trim();
-                sendRequest("register?email="+email+"&password="+password, function () 
-                { 
-                    if (model.error == undefined)
-                        sendRequest("USER_TRIES");
-                });
+                sendRequest("register?email="+email+"&password="+password, function (){});
                 
                 $('#registerDlg').modal('hide');
             });
