@@ -159,13 +159,14 @@
         {
             // model ....
             let model = {};
+            let model2 = {};
 
             function initializeModel()
             {
               //login-logout model
                 sendRequest("whoIsLoggedIn", function()
                 {
-                    if (model.error == undefined)
+                    if (model2.error == undefined)
                         sendRequest("USER_TRIES");    
                 });
               
@@ -204,11 +205,10 @@
                 $("#guesses").text(model.guesses);
                 
                 //login-logout
-                console.log(model);
-                if (model.result == undefined)
+                console.log(model2);
+                if (model2.result == undefined)
                 {
                     $("#msg").text(model.error);
-                    
                     $("#logoutBtn").hide();
                     $("#loginBtn").show();
                     $("#registerBtn").show();
@@ -238,8 +238,11 @@
                   if(model.boxes[i].prize)
                   {
                     model.gameOver = true;
-                    updateView();
-                    $('#confirm').modal('show');
+                    sendRequest("best?guesses="+model.guesses, function()
+                    {
+                        $('#confirm').modal('show');
+                    });
+                    
                   }
                   else
                   {
@@ -261,7 +264,7 @@
                 var jqxhr = $.get(url);
                 jqxhr.done(function(json) 
                 {
-                    model = json;
+                    model2 = json;
                     updateView();
                     if (callback !== undefined)
                         callback();

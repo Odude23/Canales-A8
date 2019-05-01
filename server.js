@@ -182,7 +182,15 @@ function validatePassword(pass)
 
 function best(req, res)
 {
-  
+  var con = mysql.createConnection(conInfo);
+ con.query("UPDATE USER SET USER_TRIES = ? WHERE USER_TRIES > ? AND USER_ID = ? ", [req.query.guesses, req.query.guesses, req.session.user.result.id], function (err, result, fields) 
+            {
+              if (err) 
+                writeResult(req, res, {'error' : err});
+              else
+                writeResult(req, res, req.session.user);
+            });
+
 }
 
 function serveIndex(req, res)
